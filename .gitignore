@@ -1,0 +1,16 @@
+# website files
+webapp/403.html
+webapp/404.html
+webapp/assets/403.gif
+webapp/assets/404.jpg
+webapp/assets/favicon.ico
+webapp/data/problems/
+webapp/WEB-INF/classes/
+webapp/WEB-INF/lib/
+
+# Intellij Idea project files
+.idea/
+*.iml
+
+# VS Code workspace files
+.vscode/

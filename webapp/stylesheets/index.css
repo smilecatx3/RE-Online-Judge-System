@@ -1,0 +1,204 @@
+/* Button generator: http://css3buttongenerator.com/ */
+
+html {
+	height: 80%; 
+	overflow-x: hidden;
+	overflow-y: scroll;
+}
+body {
+	height: 80%;
+	background-color: #FCFCFC;
+}
+
+
+/* [Top] begin */
+#top {
+	width: 100%;
+	position: fixed;
+	margin: -10px -10px 0px -10px;
+	padding-bottom: 10px;
+	text-align: center;
+	background-color: #4579CE;
+	box-shadow: 0px 3px 10px #AEAEAE;
+	z-index: 1;
+}
+#title {
+	font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+	font-size: 32px; 
+	color: #FCFCFC;
+	padding-top: 10px;
+	padding-bottom: 20px;
+	cursor: pointer;
+}
+#user_id {
+	font-family: "Lucida Sans Unicode";
+	font-size: 16px;
+	height: 20px;
+	padding: 3px 5px 3px 5px;
+	margin-left: 15px;
+	margin-right: 15px;
+	border: 1px solid #4579CE;
+	border-radius: 5px;
+	text-align: center;
+	background-color: #FCFCFC;
+	color: #3C3C3F;
+}
+#problem_id {
+	min-width: 4em;
+    margin-left: 15px;
+    margin-right: 15px;
+    padding: 0px 3px 0px 3px;
+    border-radius: 5px;
+    border: 1px groove #96A6FF;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    font-size: 16px;
+    background-color: #FCFCFC;
+    color: #3C3C3F;
+}
+.btn_submit {
+	font-family: Lucida Console;
+	font-size: 18px;
+	padding: 7px 13px 7px 13px;
+	text-decoration: none;
+	margin-left: 15px;
+	margin-right: 15px;
+	border: 1px solid #4579CE;
+	border-radius: 25px;
+	color: #B7B7B7;
+	background: #E6E6E6;
+	cursor: not-allowed;
+}
+.btn_submit_enabled {
+	background: #12AE3E;
+	color: #FCFCFC;
+	cursor: auto;
+}
+.btn_submit_enabled:hover {
+	background-image: linear-gradient(to bottom, #12AE3E, #119D39);
+}
+#project_site {
+	float: right;
+	font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+	padding-right: 20px;
+	margin-top: -20px;
+	text-shadow: 1px 1px 3px #E5E5E5;
+}
+#project_site a {
+	text-decoration: none;
+	color: #FCFCFC;
+}
+/* [Top] end */
+
+
+#main {
+	padding-bottom: 50px;
+}
+
+
+/* [Navigation] begin */
+.nav_container {
+	display: block;
+	margin: 0 auto;
+	width: 50%;
+	text-align: center;
+    border-spacing: 15px 0px;
+	padding-bottom: 50px;
+	font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+	font-size: 14px;
+}
+.nav_page {
+	display: inline;
+	margin-right: 15px;
+	padding: 10px 15px 10px 15px;
+	background-color: rgba(100, 140, 200, 0.15);
+	border-radius: 5px;
+}
+.nav_page a {
+	color: #ACACAC;
+    text-decoration: none;
+}
+.nav_page a:hover {
+	color: #00A2FF;
+}
+.nav_page_active {
+	background-color: #D7F1FF;
+}
+.nav_page_active a {
+	color: #0383CD;
+	font-weight: bold;
+}
+.nav_page_disabled a:hover {
+	color: #ACACAC;
+	text-decoration: none;
+	cursor: not-allowed;
+}
+
+#nav_source_code > ul,
+#nav_source_code > ul > li {
+	display: inline;
+}
+#nav_source_code ul,
+#nav_source_code ul li {
+	list-style-type: none;
+	padding: 0;
+}
+
+.submenu_root {
+	position: relative;
+}
+.submenu {
+	visibility: hidden;
+	position: absolute;
+	left: 0;
+	width: 100%;
+	transform: translateY(-100%);
+	opacity: 0;
+	transition: all 0.3s ease-in-out 0s, visibility 0s linear 0.3s;
+}
+.nav_page_active .submenu_root:hover .submenu {
+	visibility: visible;
+	opacity: 1;
+	transform: translateY(25px);
+	transition-delay: 0s, 0s, 0.3s;
+}
+.submenu > li > label {
+    position: relative;
+	cursor: pointer;
+	padding: 10px;
+	white-space: nowrap;
+}
+.submenu > li > label:hover {
+	color: #3877ED;
+	text-decoration: none;
+}
+.submenu > li > label svg {
+    fill: currentColor;
+}
+/* [Navigation] end */
+
+
+/* [Pages] begin */
+#pages {
+	visibility: hidden;
+}
+#iframe_problem {
+	/* Dimension is set dynamically in the javascript. */
+	display: block;
+	margin: 0 auto;
+}
+/* [Pages: source code] begin */
+#code_editor {
+	width: 120ch;
+	margin: 0 auto;
+}
+
+#source_file {
+	display: none;
+}
+#source_file_name {
+	border: 0px;
+	background: transparent;
+	display: none;
+}
+/* [Pages: source code] end */
+/* [Pages] end */

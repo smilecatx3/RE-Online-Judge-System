@@ -1,0 +1,214 @@
+#status_container {
+	text-align: center;
+	padding: 0px 0px 20px 0px;
+	font-family: Lucida Sans Unicode; 
+	font-size: 20px; 
+	color: black;
+}
+#progress {
+	height: 250px;
+	font-size: 40px;
+	padding: 20px 0px 20px 0px;
+}
+#progress > svg {
+	height: 100%;
+	display: block;
+}
+#judge_error {
+    border-radius: 10px;
+    background: #FFCED7;
+	color: #D50E33;
+	font-family: 'Consolas', Courier, monospace;
+	font-size: 16px;
+    padding: 15px 20px 15px 20px;
+	min-width: 600px;
+	max-width: 1000px;
+	white-space: pre-wrap;
+	margin: 0 auto;
+	text-align: left;
+	display: none;
+}
+
+
+/* [Judge Summary] begin */
+#judge_summary {
+    border-radius: 10px;
+    background: #EFEFEF;
+    padding: 15px 30px 15px 30px;
+	min-width: 300px;
+	max-width: 700px;
+	white-space: nowrap;
+	margin: auto;
+	margin-bottom: 30px;
+	visibility: hidden;
+	text-align: left;
+	font-family: Lucida Sans Unicode; 
+	font-size: 16px;
+}
+#testset_link a {
+	text-decoration: none;
+	color: rgb(20, 135, 225);
+}
+#num_passed {
+	font-family: Lucida Console;
+	font-weight: bold;
+}
+#score {
+	font-family: Comic Sans MS;
+	color: #C38747;
+}
+#runtime {
+	color: #ABABAB; 
+	float: right;
+}
+/* [Judge Summary] end */
+
+
+/* [Judge Results Table] begin */
+#judge_results_container {
+	visibility: hidden;
+}
+table {
+	border: 2px groove #68BAF9;
+	margin: auto;
+	border-collapse: collapse;
+}
+table tr {
+	border: 1px solid #AAD4F3;
+	padding: 5px 10px 5px 10px;
+}
+table tr:hover {
+	background: #F8FAFB;
+}
+table td {
+	max-width: 450px; 
+	padding: 5px 10px 5px 10px;
+	border-right: 1px solid #E7E7E7
+}
+table hr {
+	border: 0px;
+    height: 1px;
+    background-image: linear-gradient(to right, #E6F6FF, #86CBF3, #E6F6FF);
+	margin-left: -5px;
+	margin-right: -5px;
+}
+.tr1 td {
+	font-weight: bold;
+	font-family: Lucida Sans Unicode;
+	text-align: center;
+	padding: 0px 10px 0px 10px;
+	background: #E1F2FF;
+	color: #2DA2FB;
+}
+.id {
+	font-family: Comic Sans MS;
+	text-align: center;
+	vertical-align: text-top;
+	color: #587CE6;
+	padding: 5px 13px 5px 13px;
+}
+.accepted {
+	font-weight: bold;
+	color: green;
+	text-align: center;
+	vertical-align: text-top;
+}
+.incorrect {
+	font-weight: bold;
+	color: red;
+	text-align: center;
+	vertical-align: text-top;
+}
+.io {
+	font-family: 'Consolas', Courier, monospace;
+	word-wrap: break-word;
+	white-space: pre-wrap;
+	word-break: break-all;
+	vertical-align: top;
+}
+.io_collapse {
+	color: #C0C0C0; 
+	text-align: center; 
+	display: none;
+}
+.answer_timedout {
+	color: #D50E33;
+}
+/* [Judge Results Table] end */
+
+
+/* [Test set viewer] begin */
+#page_judge_mask {
+	display: none;
+	position: fixed;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	top: 0;
+	background-color: rgba(0,0,0,0.6);
+}
+#testset_viewer {
+	display: none;
+	position: fixed;
+	left: 50%;
+	top: 50%;
+	width: 960px;
+	height: 540px;
+	margin-left: -480px;
+	margin-top: -270px;
+	background-color: rgba(0, 0, 0, 0.5);
+}
+#testset_viewer_icons {
+	position: absolute;
+	right: 0;
+	padding-top: 20px;
+	padding-right: 15px;
+}
+#testset_viewer_icons img {
+	width: 32px;
+	height: 32px;
+	margin-left: 10px;
+	cursor: pointer;
+}
+.tooltip_copy {
+	visibility: hidden;
+	opacity: 0;
+    background-color: #dadada;
+    color: #000000;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 10px 5px 10px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    right: 0;
+	white-space: nowrap;
+	transition: opacity 0.3s;
+	font-family: sans-serif;
+}
+.tooltip_copy::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #dadada transparent transparent transparent;
+}
+#icon_copy:hover ~ .tooltip_copy {
+    visibility: visible;
+    opacity: 1;
+}
+#testset_text {
+	display: block;
+	margin: 0 auto;
+	resize: none;
+	width: 100%;
+	height: 100%;
+	background-color: #FCFCFC;
+	border: solid 2px #ACACAC;
+	font-family: monospace;
+	font-size: 14px;
+}
+/* [Test set viewer] end */
