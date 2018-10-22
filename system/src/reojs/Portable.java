@@ -10,6 +10,4 @@ public interface Portable extends Executable {
      * Gets the path to the executor to execute the portable code.
      */
     Path getExecutor();
-
-    Optional<List<String>> getExecutorOptions();
 }

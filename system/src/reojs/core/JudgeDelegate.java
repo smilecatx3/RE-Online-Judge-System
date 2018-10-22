@@ -42,10 +42,9 @@ class JudgeDelegate {
         if (e instanceof Portable) {
             var p = (Portable)e;
             commands.add(p.getExecutor().toString());
-            if (p.getExecutorOptions().isPresent()) {
-                commands.addAll(p.getExecutorOptions().get());
-            }
         }
+
+        e.getExecOptions().ifPresent(commands::addAll);
 
         var entryPoint = e.getEntryPoint();
         if (entryPoint == null) {
@@ -54,7 +53,7 @@ class JudgeDelegate {
             throw new JudgeFailure(JudgeFailure.INVALID_SOURCE_FILE,
                                    "Cannot find the program entry point.");
         }
-        commands.add(e.getEntryPoint());
+        commands.add(entryPoint);
 
         return execute(commands);
     }

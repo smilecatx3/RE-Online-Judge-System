@@ -61,7 +61,7 @@ public class JavaByteCode implements Portable {
     }
 
     @Override
-    public Optional<List<String>> getExecutorOptions() {
+    public Optional<List<String>> getExecOptions() {
         var options = List.of("-Dfile.encoding=UTF-8", "-Duser.language=en",
                 "-Djava.security.manager",
                 "-cp", Paths.get(source.getWorkingDir().toString(), "out").toString());

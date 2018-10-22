@@ -10,12 +10,12 @@ import reojs.SourceCode;
 
 
 // TODO: future work
-public class PythonSourceCode extends SourceCode implements Portable {
-    public PythonSourceCode(String source) throws JudgeSystemException {
+public class PythonCode extends SourceCode implements Portable {
+    public PythonCode(String source) throws JudgeSystemException {
         super(source);
     }
 
-    public PythonSourceCode(Path zipFile) throws JudgeSystemException {
+    public PythonCode(Path zipFile) throws JudgeSystemException {
         super(zipFile);
     }
 
@@ -25,7 +25,7 @@ public class PythonSourceCode extends SourceCode implements Portable {
     }
 
     @Override
-    public Optional<List<String>> getExecutorOptions() {
+    public Optional<List<String>> getExecOptions() {
         throw new UnsupportedOperationException();
     }
 
