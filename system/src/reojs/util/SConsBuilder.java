@@ -1,4 +1,4 @@
-package reojs.impl;
+package reojs.util;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -12,7 +12,6 @@ import java.util.List;
 
 import reojs.JudgeSystemException;
 import reojs.core.JudgeSystem;
-import reojs.util.CommandExecutor;
 
 
 public class SConsBuilder implements Builder {
@@ -21,8 +20,8 @@ public class SConsBuilder implements Builder {
     private static final String SCONS;
     private static final long TIMEOUT;
 
-    private String buildScript;
-    private String workingDir;
+    private Sconscript script;
+    private Path workingDir;
     private String sconsOutput;
 
 
@@ -45,20 +44,18 @@ public class SConsBuilder implements Builder {
         }
     }
 
-    public SConsBuilder(String buildScript, Path workingDir) {
-        this.buildScript = buildScript;
-        this.workingDir = workingDir.toString();
+
+    public SConsBuilder(Sconscript script, Path workingDir) {
+        this.script = script;
+        this.workingDir = workingDir;
     }
 
     @Override
     public int build() throws Exception {
-        Path file = Paths.get(workingDir, "SConstruct");
-        Files.write(file, buildScript.getBytes());
-        log.trace(String.format("Write build script to '%s': %n%s", file, buildScript));
+        script.write(workingDir);
 
-        var commands = List.of(PYTHON, SCONS, "-C", workingDir);
-        var executor = new CommandExecutor(TIMEOUT);
-        var execResult = executor.execute(commands).orElse(null);
+        var commands = List.of(PYTHON, SCONS, "-C", workingDir.toString());
+        var execResult = new CommandExecutor(TIMEOUT).execute(commands).orElse(null);
         if (execResult != null) {
             sconsOutput = execResult.getOutput();
             int exitValue = execResult.getExitValue();

@@ -7,6 +7,7 @@ import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.body.TypeDeclaration;
 
+import org.apache.commons.lang3.SystemUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -26,13 +27,14 @@ import reojs.JudgeSystemException;
 import reojs.SourceCode;
 import reojs.SourceFileChecker;
 import reojs.core.JudgeSystem;
-import reojs.impl.Builder;
-import reojs.impl.SConsBuilder;
+import reojs.util.Builder;
+import reojs.util.SConsBuilder;
+import reojs.util.Sconscript;
 
 
 public class JavaSourceCode extends SourceCode implements Compilable {
     private static final Log log = LogFactory.getLog(JavaSourceCode.class);
-    private Builder builder = new SConsBuilder(createBuildScript(), getWorkingDir());
+    private Builder builder = createBuilder();
     private String packageName;
 
 
@@ -133,17 +135,12 @@ public class JavaSourceCode extends SourceCode implements Compilable {
         return Optional.ofNullable(packageName);
     }
 
-    private String createBuildScript() {
-        Function<Path, String> toUnixPath = (path) -> path.toString().replaceAll("\\\\", "/");
-        var config = JudgeSystem.getConfig("java");
-        var wd = getWorkingDir().toString();
-
-        return String.format("env = Environment( %n" +
-                             "    JAVACFLAGS=['-encoding', 'utf8'], %n" +
-                             "    JAVAC=File('%s')) %n" +
-                             "env.Java('%s', '%s') %n",
-                toUnixPath.apply(Paths.get(config.getString("jdk_path"), "javac")),
-                toUnixPath.apply(Paths.get(wd, "out")),
-                toUnixPath.apply(Paths.get(wd, "src")));
+    private Builder createBuilder() {
+        var javac = Paths.get(JudgeSystem.getConfig("java").getString("jdk_path"),
+                              SystemUtils.IS_OS_WINDOWS ? "javac.exe" : "javac");
+        var sconscript = new Sconscript().compiler("JAVAC", javac)
+                                         .flags("JAVACFLAGS", "-encoding", "utf8")
+                                         .builder("Java", "out", "src");
+        return new SConsBuilder(sconscript, getWorkingDir());
     }
 }

@@ -1,4 +1,4 @@
-package reojs.impl;
+package reojs.util;
 
 
 public interface Builder {
