@@ -26,10 +26,10 @@ public class SConsBuilder implements Builder {
 
 
     static {
-        var config = JudgeSystem.getConfig("scons");
-        PYTHON = config.getString("python");
-        SCONS = config.getString("scons");
-        TIMEOUT = config.getLong("timeout");
+        var config = JudgeSystem.getConfig();
+        PYTHON = config.getString("scons.python");
+        SCONS = config.getString("scons.scons");
+        TIMEOUT = config.getInteger("scons.timeout");
 
         checkPathExists(PYTHON);
         checkPathExists(SCONS);

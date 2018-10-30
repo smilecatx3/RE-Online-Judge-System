@@ -62,7 +62,7 @@ class JudgeDelegate {
         var testCases = judgement.getTestSet().getTestCases();
         JudgeResult[] results = new JudgeResult[testCases.size()];
         long elapsedTime = 0; // Prevent a judgement occupies resource too long
-        long timeout = JudgeSystem.getConfig("system").getLong("timeout");
+        long timeout = JudgeSystem.getConfig().getInteger("system.timeout");
 
         for (int i=0; i<results.length; i++) {
             listener.onProgress(0.5+((i+1.0)/results.length)*0.5, ProgressListener.STATUS_EXECUTE);
@@ -93,7 +93,7 @@ class JudgeDelegate {
     }
 
     private void redirectInput(List<String> inputs) throws IOException {
-        var workingDir = JudgeSystem.getConfig("system").getString("working_dir");
+        var workingDir = JudgeSystem.getConfig().getString("system.working_dir");
         Path file = Files.createTempFile(Paths.get(workingDir), null, null);
         Files.write(file, String.join("\n", inputs).getBytes(StandardCharsets.UTF_8));
         executor.redirectInput(file.toFile());

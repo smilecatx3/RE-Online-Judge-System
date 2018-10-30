@@ -92,7 +92,7 @@ public class JudgeService extends HttpServlet {
     private void sendJudgeReport(Writer w, JudgeReport report) {
         var judgement = report.getJudgement();
         var submission = judgement.getSubmission();
-        var base = JudgeSystem.getConfig("system").getInt("base_score");
+        var base = JudgeSystem.getConfig().getInteger("system.base_score");
 
         var results = new JSONArray();
         for (var result : report.getJudgeResults()) {

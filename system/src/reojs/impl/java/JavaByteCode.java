@@ -1,5 +1,6 @@
 package reojs.impl.java;
 
+import org.apache.commons.lang3.SystemUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -27,8 +28,8 @@ public class JavaByteCode implements Portable {
 
     @Override
     public Path getExecutor() {
-        var config = JudgeSystem.getConfig("java");
-        return Paths.get(config.getString("jdk_path"), "java");
+        return Paths.get(JudgeSystem.getConfig().getString("java.jdk_path"),
+                         SystemUtils.IS_OS_WINDOWS ? "java.exe" : "java");
     }
 
     @Override

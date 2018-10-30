@@ -27,7 +27,7 @@ public class WebApplication implements ServletContextListener {
     public void contextInitialized(ServletContextEvent event) {
         try {
             var context = event.getServletContext();
-            Path config = Paths.get(context.getRealPath("/WEB-INF/config.json"));
+            Path config = Paths.get(context.getRealPath("/WEB-INF/config.ini"));
             JudgeSystem.initialize(config);
             systemInitialized = true;
             log.info("Servlet context initialized.");

@@ -109,7 +109,7 @@ public abstract class SourceCode {
 
     private SourceCode() throws JudgeSystemException {
         try {
-            var wd = JudgeSystem.getConfig("system").getString("working_dir");
+            var wd = JudgeSystem.getConfig().getString("system.working_dir");
             workingDir = Files.createTempDirectory(Paths.get(wd), null);
         } catch (IOException e) {
             log.error(e.getMessage(), e);

@@ -22,7 +22,7 @@ public class TestSet {
 
 
     TestSet(String problemId) throws JudgeSystemException {
-        var testsetDir = JudgeSystem.getConfig("system").getString("testset_dir");
+        var testsetDir = JudgeSystem.getConfig().getString("system.testset_dir");
         file = Paths.get(testsetDir, problemId + ".json");
         try {
             var testset = new JSONObject(new String(Files.readAllBytes(file)));
@@ -32,7 +32,7 @@ public class TestSet {
             }
             stdin = testset.has("stdin") && testset.getBoolean("stdin");
             timeout = testset.has("timeout") ? testset.getLong("timeout") :
-                    JudgeSystem.getConfig("system").getLong("timeout");
+                      JudgeSystem.getConfig().getInteger("system.timeout");
         } catch (IOException e) {
             throw new JudgeSystemException(
                     String.format("Failed to create a testset from '%s'", file.getFileName()), e);

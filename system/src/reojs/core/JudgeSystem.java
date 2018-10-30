@@ -2,11 +2,9 @@ package reojs.core;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.json.JSONObject;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Callable;
@@ -16,13 +14,15 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import reojs.JudgeSystemException;
 import reojs.Submission;
+import reojs.config.Config;
+import reojs.config.IniConfig;
 
 
 public class JudgeSystem {
     private static JudgeSystem instance;
     private static final Log log = LogFactory.getLog(JudgeSystem.class);
 
-    private JSONObject config;
+    private Config config;
     private ExecutorService mainService = Executors.newSingleThreadExecutor();
     private ExecutorService judgeService;
     private BlockingQueue<Ticket> queue = new LinkedBlockingQueue<>();
@@ -53,12 +53,8 @@ public class JudgeSystem {
         return Optional.ofNullable(ticket);
     }
 
-    public static JSONObject getConfig(String name) {
-        var config = JudgeSystem.getInstance().config;
-        if (!config.isNull(name)) {
-            return config.getJSONObject(name);
-        }
-        throw new NoSuchElementException(name);
+    public static Config getConfig() {
+        return getInstance().config;
     }
 
     static void schedule(Ticket t) {
@@ -74,12 +70,11 @@ public class JudgeSystem {
     }
 
     private JudgeSystem(Path configFile) throws Exception {
-        config = new JSONObject(new String(Files.readAllBytes(configFile)));
-        var sysConf = config.getJSONObject("system");
-        if (sysConf.isNull("working_dir")) {
-            sysConf.put("working_dir", Files.createTempDirectory("reojs").toString());
+        config = new IniConfig(configFile);
+        if (!config.has("system.working_dir")) {
+            config.setProperty("system.working_dir", Files.createTempDirectory("reojs").toString());
         }
-        log.info(String.format("Init system using config '%s': %n%s", configFile, config));
+        log.info(String.format("System config '%s': %n%s", configFile, config));
 
         // Keep one processor free to prevent the server from being full loading
         int capacity = Math.max(1, Runtime.getRuntime().availableProcessors()-1);

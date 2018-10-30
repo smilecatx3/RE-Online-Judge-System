@@ -17,7 +17,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Optional;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import reojs.Compilable;
@@ -136,7 +135,7 @@ public class JavaSourceCode extends SourceCode implements Compilable {
     }
 
     private Builder createBuilder() {
-        var javac = Paths.get(JudgeSystem.getConfig("java").getString("jdk_path"),
+        var javac = Paths.get(JudgeSystem.getConfig().getString("java.jdk_path"),
                               SystemUtils.IS_OS_WINDOWS ? "javac.exe" : "javac");
         var sconscript = new Sconscript().compiler("JAVAC", javac)
                                          .flags("JAVACFLAGS", "-encoding", "utf8")

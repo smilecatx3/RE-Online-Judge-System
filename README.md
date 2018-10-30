@@ -20,6 +20,7 @@ The current version only supports Java programming language.
 - Web container: [Tomcat](http://tomcat.apache.org/)
 - Builder: [SCons](https://scons.org/)
 - Java library dependencies:
+  - [Apache Commons Configuration](http://commons.apache.org/proper/commons-configuration/)
   - [Apache Commons FileUpload](http://commons.apache.org/proper/commons-fileupload/)
   - [Apache Commons Lang](http://commons.apache.org/proper/commons-lang/)
   - [Apache Commons Logging](http://commons.apache.org/proper/commons-logging/)

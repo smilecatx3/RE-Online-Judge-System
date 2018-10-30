@@ -117,7 +117,7 @@ public class RegisterService extends HttpServlet {
         if (postParams.containsKey("source_text")) {
             source.put("text", postParams.get("source_text").getString());
         } else {
-            var workingDir = JudgeSystem.getConfig("system").getString("working_dir");
+            var workingDir = JudgeSystem.getConfig().getString("system.working_dir");
             FileItem sourceFile = postParams.get("source_file");
             String filename = FilenameUtils.removeExtension(sourceFile.getName())+"+";
             Path path = Files.createTempFile(Paths.get(workingDir), filename, ".zip");
