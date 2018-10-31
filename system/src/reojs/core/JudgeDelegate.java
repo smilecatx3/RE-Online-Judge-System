@@ -42,9 +42,8 @@ class JudgeDelegate {
         if (e instanceof Portable) {
             var p = (Portable)e;
             commands.add(p.getExecutor().toString());
+            p.getExecOptions().ifPresent(commands::addAll);
         }
-
-        e.getExecOptions().ifPresent(commands::addAll);
 
         var entryPoint = e.getEntryPoint();
         if (entryPoint == null) {
