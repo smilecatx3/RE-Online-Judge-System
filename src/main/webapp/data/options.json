@@ -1,0 +1,11 @@
+{
+    "problem_id": {
+        "hw1": {"value": "hw1"},
+        "hw2": {"value": "hw2"},
+        "hw3": {"value": "hw3"}
+    },
+
+    "language": {
+        "Java" : {"value": "java", "selected": true}
+    }
+}
