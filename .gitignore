@@ -1,18 +1,18 @@
+*.code-workspace
 docs/overview.pptx
 
 # website files
-webapp/403.html
-webapp/404.html
-webapp/assets/403.gif
-webapp/assets/404.jpg
-webapp/assets/favicon.ico
-webapp/data/problems/
-webapp/WEB-INF/classes/
-webapp/WEB-INF/lib/
+src/main/webapp/403.html
+src/main/webapp/404.html
+src/main/webapp/assets/403.gif
+src/main/webapp/assets/404.jpg
+src/main/webapp/assets/favicon.ico
+src/main/webapp/data/problems/
+src/main/webapp/WEB-INF/classes/
+src/main/webapp/WEB-INF/lib/
 
-# Intellij Idea project files
+# non-project files
+.gradle/
+.vscode/
 .idea/
 *.iml
-
-# VS Code workspace files
-.vscode/

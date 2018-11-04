@@ -1,6 +1,6 @@
 # RE: Online Judge System  
 
-The system provides an online service for programming examination.  
+The project provides an online service for programming examination.  
 
 **Features**:
 
@@ -17,8 +17,7 @@ The current version only supports Java programming language.
 ## Prerequisites
 
 - [JDK 10+](https://www.oracle.com/technetwork/java/javase/downloads/index.html)
-- Web container: [Tomcat](http://tomcat.apache.org/)
-- Builder: [SCons](https://scons.org/)
+- [SCons](https://scons.org/)
 - Java library dependencies:
   - [Apache Commons Configuration](http://commons.apache.org/proper/commons-configuration/)
   - [Apache Commons FileUpload](http://commons.apache.org/proper/commons-fileupload/)
@@ -27,12 +26,16 @@ The current version only supports Java programming language.
   - [JavaParser](https://javaparser.org/)
   - [JSON-java](https://github.com/douglascrockford/JSON-java)
   - [Zip4j](http://www.lingala.net/zip4j/)
-
-You can get prebuilt libs [here](https://drive.google.com/drive/folders/130ug9bok-Xy2CJjNWvBENqonS-o4FiQi?usp=sharing).
+  
+*NOTE: All Java libraries are automatically downloaded by the gradle build script.*
 
 ## Build and Installation
 
 ### [Build the Judge System]
+
+>*NOTE: The SCons build will be entirely replaced by Gradle in the near future. This commit does not
+>update the build method of the final product, which is no longer a war file (a Tomcat webapp) as
+>the application is powered by the Spring Boot.*
 
 The project uses [SCons](https://scons.org/) as software builder. You need to specify the Java
 compiler and the path to the directory containing the required libs in the config file *config.ini*.

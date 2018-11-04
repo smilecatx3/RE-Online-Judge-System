@@ -2,46 +2,37 @@ package reojs.webapp;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
-import javax.servlet.annotation.WebListener;
+import javax.annotation.PreDestroy;
 
 import reojs.system.core.JudgeSystem;
 
 
-@WebListener
-public class WebApplication implements ServletContextListener {
+@SpringBootApplication(scanBasePackages={"reojs.system", "reojs.webapp"})
+public class WebApplication {
     private static final Log log = LogFactory.getLog(WebApplication.class);
-    private boolean systemInitialized = false;
 
+
+    public static void main(String[] args) {
+        SpringApplication.run(WebApplication.class, args);
+    }
 
     public WebApplication() {
-        System.setProperty("java.net.preferIPv4Stack" , "true");
+        log.info("Start web application ...");
     }
 
-    @Override
-    public void contextInitialized(ServletContextEvent event) {
-        try {
-            var context = event.getServletContext();
-            Path config = Paths.get(context.getRealPath("/WEB-INF/config.ini"));
-            JudgeSystem.initialize(config);
-            systemInitialized = true;
-            log.info("Servlet context initialized.");
-        } catch (Exception e) {
-            log.fatal("Failed to initialize system.", e);
-            System.exit(-1);
-        }
+    @PreDestroy
+    private void destroy() {
+        log.info("Shutdown web application ...");
+        JudgeSystem.shutdown();
     }
 
-    @Override
-    public void contextDestroyed(ServletContextEvent event) {
-        if (systemInitialized) {
-            JudgeSystem.shutdown();
-            log.info("Servlet context destroyed");
-        }
+    @Bean
+    public CommonsMultipartResolver multipartResolver() {
+        return new CommonsMultipartResolver();
     }
 }

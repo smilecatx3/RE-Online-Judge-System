@@ -2,9 +2,11 @@ package reojs.system.core;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 import java.nio.file.Files;
-import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Callable;
@@ -18,9 +20,10 @@ import reojs.system.config.Config;
 import reojs.system.config.IniConfig;
 
 
+@Service
 public class JudgeSystem {
-    private static JudgeSystem instance;
     private static final Log log = LogFactory.getLog(JudgeSystem.class);
+    private static JudgeSystem instance;
 
     private Config config;
     private ExecutorService mainService = Executors.newSingleThreadExecutor();
@@ -28,10 +31,21 @@ public class JudgeSystem {
     private BlockingQueue<Ticket> queue = new LinkedBlockingQueue<>();
 
 
-    public static synchronized void initialize(Path config) throws Exception {
-        if (instance == null) {
-            instance = new JudgeSystem(config);
+    public JudgeSystem(@Value("${system.config}") String configFile) throws Exception {
+        config = new IniConfig(Paths.get(configFile));
+        if (!config.has("system.working_dir")) {
+            config.setProperty("system.working_dir", Files.createTempDirectory("reojs").toString());
         }
+        log.info(String.format("System config '%s': %n%s", configFile, config));
+
+        // Keep one processor free to prevent the server from being full loading
+        int capacity = Math.max(1, Runtime.getRuntime().availableProcessors()-1);
+        judgeService = Executors.newFixedThreadPool(capacity);
+        log.info("Available number of concurrent tasks: " + capacity);
+
+        run();
+        JudgeSystem.instance = this;
+        log.info("The judge system has been initialized successfully.");
     }
 
     public static synchronized void shutdown() {
@@ -39,6 +53,7 @@ public class JudgeSystem {
         system.judgeService.shutdownNow();
         system.mainService.shutdownNow();
         instance = null;
+        log.info("The judge system has been shutdown.");
     }
 
     public static Optional<Ticket> newTicket(Submission s) {
@@ -67,21 +82,6 @@ public class JudgeSystem {
             return instance;
         }
         throw new IllegalStateException("The system has not been initialized yet.");
-    }
-
-    private JudgeSystem(Path configFile) throws Exception {
-        config = new IniConfig(configFile);
-        if (!config.has("system.working_dir")) {
-            config.setProperty("system.working_dir", Files.createTempDirectory("reojs").toString());
-        }
-        log.info(String.format("System config '%s': %n%s", configFile, config));
-
-        // Keep one processor free to prevent the server from being full loading
-        int capacity = Math.max(1, Runtime.getRuntime().availableProcessors()-1);
-        judgeService = Executors.newFixedThreadPool(capacity);
-        log.info("Available number of concurrent tasks: " + capacity);
-
-        run();
     }
 
     private void run() {

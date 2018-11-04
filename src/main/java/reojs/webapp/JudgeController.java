@@ -4,36 +4,39 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.function.Consumer;
 
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import reojs.JudgeFailure;
+import reojs.system.JudgeFailure;
 import reojs.system.core.JudgeReport;
 import reojs.system.core.JudgeSystem;
 import reojs.system.core.Ticket;
 
 
-@WebServlet("/judge")
-public class JudgeService extends HttpServlet {
-    private static final Log log = LogFactory.getLog(JudgeService.class);
+@Controller
+@RequestMapping("/judge")
+public class JudgeController {
+    private static final Log log = LogFactory.getLog(JudgeController.class);
 
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    @GetMapping
+    public void judge(HttpServletRequest request, HttpServletResponse response)
                          throws IOException {
         response.setContentType("text/event-stream");
         response.setCharacterEncoding("UTF-8");
 
         Ticket ticket;
         try {
-            ticket = getTicket(request.getParameter("ticket_id"));
+            ticket = getTicket(request.getServletContext(), request.getParameter("ticket_id"));
         } catch (Exception e) {
             log.warn(String.format("%s (%s)", e.getMessage(), request.getRemoteAddr()));
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
@@ -67,15 +70,15 @@ public class JudgeService extends HttpServlet {
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         } finally {
             session.removeAttribute(ticket.getId());
-            getServletContext().removeAttribute("ticket"+ticket.getId());
+            request.getServletContext().removeAttribute("ticket"+ticket.getId());
         }
     }
 
-    private Ticket getTicket(String id) throws Exception {
+    private Ticket getTicket(ServletContext context, String id) throws Exception {
         if (id == null) {
             throw new Exception("The request query 'ticket_id' is absent.");
         }
-        var ticket = (Ticket)getServletContext().getAttribute("ticket"+id);
+        var ticket = (Ticket)context.getAttribute("ticket"+id);
         if (ticket == null) {
             throw new Exception(String.format("The ticket id '%s' does not exits.", id));
         }
