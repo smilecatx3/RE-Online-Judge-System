@@ -1,16 +1,20 @@
 import configparser
 import glob
 import os
-
+import shutil
 
 config_parser = configparser.ConfigParser()
 config_parser.read('config.ini')
 config = config_parser['DEFAULT']
 
+cwd = os.getcwd()
 
 ## [STEP-1] Compile
-classes_dir = os.path.join('webapp', 'WEB-INF', 'classes')
+classes_dir = os.path.join(cwd, 'webapp', 'WEB-INF', 'classes')
 libs = list(x for x in glob.glob(os.path.join(config['lib_dir'], '*.jar')))
+libs = [f'{cwd}/{x}' for x in libs]
+
+shutil.rmtree(classes_dir)
 
 env_java = Environment(
     JAVAC=File(config['javac']),
@@ -18,7 +22,7 @@ env_java = Environment(
     JAVACLASSPATH=libs+[classes_dir],
     JAVACCOMSTR='Compiling...'
 )
-java_build = env_java.Java(classes_dir, [Dir('system/src'), Dir('webapp/WEB-INF/src')])
+java_build = env_java.Java(classes_dir, [Dir(f'{cwd}/system/src'), Dir(f'{cwd}/webapp/WEB-INF/src')])
 
 
 ## [STEP-2] Make final product (servlet war file)

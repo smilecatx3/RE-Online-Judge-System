@@ -8,7 +8,6 @@ webapp/assets/404.jpg
 webapp/assets/favicon.ico
 webapp/data/problems/
 webapp/WEB-INF/classes/
-webapp/WEB-INF/lib/
 
 # Intellij Idea project files
 .idea/
